@@ -66,3 +66,56 @@ Operadores para hacer comparaciones en las condiciones:
 + constantes __alfanumericas__(TEXTO) van entre comillas simples '
 + las __fechas__ tambien entre comillas simples
 + el valor __nulo__ se escrive   NULL
+
+
+Sacar clientes de la ciudad que tiene codigo 12309
+```
+select *
+from client c 
+where cp = 12425
+```
+
+### Trabajar con fechas!
+
+La funcion to_char(data,'DD-MM-YYYY')
+Estructura :  TO_CHAR(NOW(),'format')
+
+Ponemos primera la fecha y despues el formato en quela queremos.
+
+### La funcion like
+Nos sirve para sacar los valores que sean igual al que pongamos.
+
+
+Sacar las facturas del mes de marzo de 2015
+```
+select *
+from factura f 
+where to_char(data,'MM-YYYY') like '03-2015'
+```
+
+Sacar articulos de la categoria BjcOlimpia amb un stock entre 2 y 7 unidades.
+```
+select *
+from  article a 
+where cod_cat like 'BjcOlimpia' and stock between 2 and 7
+```
+
+### FUncion is NULL
+Nos sirve para comprobar si es nulo
+
+Traure tots els clients que no tenen introduït el codi postal.
+```
+select*
+from client
+where cp is NULL
+```
+(6.11)
+
+
+
+
+
+
+
+
+
