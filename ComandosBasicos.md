@@ -67,7 +67,7 @@ Operadores para hacer comparaciones en las condiciones:
 + las __fechas__ tambien entre comillas simples
 + el valor __nulo__ se escrive   NULL
 
-
+## Ejercicios WHERE
 Sacar clientes de la ciudad que tiene codigo 12309
 ```
 select *
@@ -110,12 +110,36 @@ from client
 where cp is NULL
 ```
 (6.11)
+Traure tots els articles amb el stock introduït però que no tenen introduït el stock mínim.
+```
+select *
+from  article a 
+where stock is not null and stock_min is null
+```
+Traure tots els clients, el primer cognom dels quals és VILLALONGA.
+```
+select *
+from  client c 
+where nom like 'VILLALONGA%'
+```
+ Modificar l'anterior per a traure tots els que són VILLALONGA de primer o de segon cognom.
 
-
-
-
-
-
-
-
+ El simbolo % equivale a 0 o muchos caracteres
+```
+select *
+from  client c 
+where nom like '%VILLALONGA%'
+```
+Modificar l'anterior per a traure tots els que no són VILLALONGA ni de primer ni de segon cognom.
+```
+select *
+from  client c 
+where nom not like '%VILLALONGA%'
+```
+Traure els articles "Pulsador" (la descripció conté aquesta paraula), el preu dels quals oscila entre 2 i 4 € i dels quals tenim un stock estrictament major que el stock mínim.
+```
+select *
+from article a 
+where descrip like '%Pulsador%' and preu between 2 and 4 and stock > stock_min
+```
 
