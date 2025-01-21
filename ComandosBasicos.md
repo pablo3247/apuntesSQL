@@ -142,4 +142,19 @@ select *
 from article a 
 where descrip like '%Pulsador%' and preu between 2 and 4 and stock > stock_min
 ```
+## Funciones de dominio agregado
+
+### Sintasi
++ COUNT(<expresion>), cuenta el numero de filas en las que aparece(no cuenta las nulas, creo xD)
++ SUM(<expresio>) pues suma,no?(ingora los nulos)
++ AVG(<expresio>) saca la media, no te vas a creer lo  que hace con los nulos!
++ VAR_SAMP(<expresio>) no se que hace xD, luego investigo... 😅
++ STDDEV(<expresio>) desviacio tipicia d'una mostra, ni idea xd
++ MAX(<expresio>) calcula el maximo
++ MIN(<expressio>) calcula el minim
+  
+
+
+
+
 
