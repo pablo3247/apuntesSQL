@@ -154,6 +154,74 @@ where descrip like '%Pulsador%' and preu between 2 and 4 and stock > stock_min
 + MIN(<expressio>) calcula el minim
   
 
+Comptar el nombre de clients que tenen el codi postal nul.
+```
+select count(*)
+from client c 
+where cp is null
+```
+
+Comptar el número de vegades que l'article L76104 entra en les línies de factura, i el número total d'unitats venudes d'aquest article. Només us fa falta la taula LINIA_FAC.
+
+```
+select count(*),sum(quant) 
+from linia_fac lf 
+where cod_a like 'L76104'
+```
+
+Traure la mitjana del stock dels articles.
+```
+select avg(stock) 
+from article a 
+```
+
+Modificar l'anterior per a tenir en compte els valors nuls, com si foren 0. Us vindrà bé la funció COALESCE que converteix els nuls del primer paràmetre al valor donat com a segon paràmetre (si és diferent de nul, deixa igual el valor). Per tant l'heu d'utilitzar d'aquesta manera: COALESCE(stock,0)
+```
+select avg(coalesce(stock,0)) 
+from article a 
+```
+
+Comptar quantes factures té el client 375
+```
+select count(*) 
+from factura f 
+where cod_cli = 375
+```
+
+Calcular el descompte màxim, el mínim i el descompte mitjà de les factures.
+```
+select max(dte),min(dte),avg(dte) 
+from factura f 
+```
+
+## Ejercicios GROUP BY
+
+
+
+
+
+
+
+
+Comptar el número de pobles de cada província (és suficient traure el codi de la província i el número de pobles).
+```
+select cod_pro , count(cod_pob) 
+from poble p
+group by cod_pro 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
