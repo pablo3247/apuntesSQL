@@ -260,6 +260,60 @@ FROM <taules>
 HAVING <condició>
 ```
 Calcular la mitjana de quantitats demanades d'aquells articles que s'han demanat més de dues vegades. Observeu que la taula que ens fa falta és LINIA_FAC, i que la condició (en el HAVING) és sobre el número de vegades que entra l'article en una linia de factura, però el resultat que s'ha de mostrar és la mitjana de la quantitat.
+```
+select cod_a, count(*) ,avg(quant)
+from linia_fac lf 
+group by cod_a 
+having count(num_f) > 2 
+```
+Traure els pobles que tenen entre 3 i 7 clients. Traure només el codi del poble i aquest número
+```
+select cod_pob ,count(*) 
+from client c 
+group by cod_pob 
+having count(*) between 3 and 7 
+```
+Traure les categories que tenen més d'un article "car" (de més de 100 €). Observeu que també ens eixirà la categoria NULL, és a dir, apareixerà com una categoria aquells articles que no estan catalogats.
+*Antes de agrupar podemos "filtrar" con el where*
+```
+select cod_cat , count(preu)
+from article a 
+where preu > 100
+group by cod_cat 
+having count(preu)>1
+```
+Traure els clients que tenen més d'una factura, amb el número de factures.
+```
+select cod_cli ,count(num_f) 
+from factura f 
+group by cod_cli 
+having count(num_f) > 1
+```
+Modificar l'anterior per a traure els clients que tenen més d'una factura en el primer trimestre.
+```
+select cod_cli ,count(num_f) 
+from factura f 
+where to_char(data,'Q') like '1' 
+group by cod_cli
+having count(num_f) > 1 
+```
+Calcular el total de cada factura d'aquelles factures que tenen 10 o més línies de factura, sense aplicar descomptes ni IVA (com la consulta 6.26), i també aplicant el descompte que consta en la línia de factura (no el descompte de tota la factura). Tindrem el problema que el valor NULL és especial, i en operar amb qualsevol altre valor donarà NULL. En aquest cas clarament l'hem de considerar com un descompte 0. Podeu utilitzar una funció que substitueix els valors nuls trobats en el primer paràmetre, pel segon paràmetre d'aquesta manera: COALESCE(dte,0)
+```
+
+```
+ooioooo
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
