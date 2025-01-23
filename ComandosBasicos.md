@@ -196,9 +196,7 @@ from factura f
 
 ## Ejercicios GROUP BY
 
-
-
-
+Pues agrupa los elementos segun se repitan
 
 
 
@@ -210,17 +208,50 @@ from poble p
 group by cod_pro 
 ```
 
+Comptar el nombre de clients en cada poble i codi postal.
+```
+select cod_pob ,  cp, count(*) 
+from client c 
+group by cod_pob,cp 
+```
 
+Comptar el número de factures de cada venedor a cada client.
+```
+select cod_ven , cod_cli , count(*)
+from factura f 
+group by cod_ven ,cod_cli 
+```
 
+Comptar el número de factures de cada trimestre. Per a poder traure el trimestre i agrupar per ell (ens val el número de trimestre, que va del 1 al 4), podem utilitzar la funció TO_CHAR(data,'Q').
+```
+select to_char(data,'Q') ,count(num_f)
+from factura f 
+group by to_char(data,'Q')
+```
 
+Calcular quantes vegades s'ha venut un article, la suma d'unitats venudes, la quantitat màxima i la quantitat mínima.
+```
+select cod_a ,count(quant),sum(quant),max(quant),min(quant)
+from linia_fac lf 
+group by cod_a 
+```
 
+Comptar el número d'articles de cada categoria i el preu mitjà.
+```
+select cod_cat ,count(*) , avg(preu)
+from article a 
+group by cod_cat 
+```
 
+Calcular el total de cada factura, sense aplicar descomptes ni IVA. Només ens farà falta la taula LINIES_FAC, i consistirà en agrupar per cada num_f per a calcular la suma del preu multiplicat per la quantitat.
+```
+select num_f , sum(preu * quant)
+from linia_fac lf 
+group by num_f 
+```
 
-
-
-
-
-
+## Ejercicios HAVING
+Pues tener y eso
 
 
 
