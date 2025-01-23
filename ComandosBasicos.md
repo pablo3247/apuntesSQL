@@ -252,8 +252,14 @@ group by num_f
 
 ## Ejercicios HAVING
 Pues tener y eso
-
-
+sintasi!
+```
+SELECT <columnes>
+FROM <taules>
+[GROUP BY <columnes>]
+HAVING <condició>
+```
+Calcular la mitjana de quantitats demanades d'aquells articles que s'han demanat més de dues vegades. Observeu que la taula que ens fa falta és LINIA_FAC, i que la condició (en el HAVING) és sobre el número de vegades que entra l'article en una linia de factura, però el resultat que s'ha de mostrar és la mitjana de la quantitat.
 
 
 
