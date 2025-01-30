@@ -406,8 +406,62 @@ from client c
 
 
 ## Clausula LIMIT -OFFSET
+LA SINTASI!
+```
+SELECT <columnes>
+FROM <taules>
+[LIMIT n] [OFFSET m]
+```
+Se usa junto a un orden by para asi sacar por ejemplo los 10 mas altos.
+En caso de que haya valores nulos pues renta usar un offset para saltarlos.
 
 
+
+6.44 Traure tota la informació dels dos articles més cars.
+```
+select *
+from article a 
+order by preu desc 
+limit 2
+```
+6.45 Traure el codi de les tres ciutats amb més clients
+```
+select cod_pob , count(*)
+from client c 
+group by cod_pob 
+order by 2 desc 
+limit 3
+```
+
+6.46 Traure el venedor que ha venut menys factures
+```
+select cod_ven ,count(*)
+from factura f 
+group by cod_ven 
+order by 2 
+limit 1 offset 1
+```
+
+6.47 Traure les tres factures més cares (sense comptar els descomptes)
+```
+select num_f , sum(quant*preu)
+from linia_fac lf  
+group by num_f 
+order by 2 desc 
+limit 3
+```
+
+6.48 Modificar l'anterior per a traure totes les factures, excepte les 3 més cares.
+```
+select num_f , sum(quant*preu)
+from linia_fac lf  
+group by num_f 
+order by 2 desc 
+offset 3
+```
+
+
+## Consulta de creacion de tablas
 
 
 
