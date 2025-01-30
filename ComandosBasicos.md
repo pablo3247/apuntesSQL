@@ -364,17 +364,63 @@ Funciona xd
 
 ## El predicat DISTINCT
 
-
-
-
+Nos saca las filas sin repetirlas.
 
 
 
 
 6.39 Traure els venedors que han venut alguna cosa el mes de gener de 2015.
 ```
-
+select distinct cod_ven 
+from factura f 
+where to_char(data,'MM-YYYY') like '01-2015' 
 ```
+
+6.40 Traure els diferents tipus d'IVA que s'han aplicat a les factures de cada venedor, també durant el mes de gener de 2015
+```
+select distinct cod_ven 
+from factura f 
+where to_char(data,'MM-YYYY') like '01-2015' 
+```
+
+6.41 Traure els diferents caps de venedors (eviteu que aparega el valor nul)
+```
+select distinct cod_cap 
+from venedor v 
+where cod_cap is not null
+```
+
+
+6.42 Traure els diferents descomptes que s'han aplicat als articles, el codi dels quals comença per SAT. Traure tant el codi d'article com el descompte.
+```
+select distinct cod_a ,dte
+from linia_fac lf 
+where cod_a like 'SAT%'
+```
+
+6.43 Comptar en quantes poblacions tenim clients
+```
+select count( distinct cod_pob )
+from client c 
+```
+
+
+## Clausula LIMIT -OFFSET
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
