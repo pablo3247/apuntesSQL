@@ -344,16 +344,37 @@ order by   coalesce (stock_min,0) - coalesce(stock,0)
 
 6.38 Traure els codis de venedor amb el número de factures venudes en el segon semestre de 2015, ordenades per aquest número de forma descendent
 ```
+select cod_ven, count(*)
+from factura f 
+where data between '2015/07/01' and '2015/12/31'
+group by cod_ven
+order by 2 desc
+```
+## CUIDADO!
+Un semestre son 6 meses!
+```
+where data between '2015/07/01' and '2015/12/31'
+```
+Funciona para sacar rangos de fechas!
+```
+order by (numero de columna) 
+```
+Funciona xd
 
+
+## El predicat DISTINCT
+
+
+
+
+
+
+
+
+6.39 Traure els venedors que han venut alguna cosa el mes de gener de 2015.
 ```
 
-
-
-
-
-
-
-
+```
 
 
 
