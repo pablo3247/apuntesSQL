@@ -299,9 +299,54 @@ having count(num_f) > 1
 ```
 Calcular el total de cada factura d'aquelles factures que tenen 10 o més línies de factura, sense aplicar descomptes ni IVA (com la consulta 6.26), i també aplicant el descompte que consta en la línia de factura (no el descompte de tota la factura). Tindrem el problema que el valor NULL és especial, i en operar amb qualsevol altre valor donarà NULL. En aquest cas clarament l'hem de considerar com un descompte 0. Podeu utilitzar una funció que substitueix els valors nuls trobats en el primer paràmetre, pel segon paràmetre d'aquesta manera: COALESCE(dte,0)
 ```
+select num_f ,sum( quant *preu) as preu, sum( preu*quant* (1-( coalesce(dte,0)/100)))
+from linia_fac lf 
+group by num_f 
+having count(num_f) > 9
+```
+
+## Ejercicios ORDER BY
+Sintasi!
+```
+SELECT <columnes>
+FROM <taules>
+ORDER BY camp1 [ASC | DESC] { , camp2 [ASC | DESC] }
+```
+
+6.34 Traure tots els clients ordenats per codi de població, i dins d'aquestos per codi postal.
+```
+select *
+from client c 
+order by cod_pob , cp
+```
+6.35 Traure tots els articles ordenats per la categoria, dins d'aquest pel stock, i dins d'aquest per preu (de forma descendent)
+```
+select *
+from article a 
+order by cod_cat , stock, preu desc 
+```
+
+6.36 Traure els resultats de la consulta 6.33 ordenats pel total de la factura quan ja s'ha aplicat el descompte, de forma descendent.
+```
+select num_f ,sum( quant *preu) as preu, sum( preu*quant* (1-( coalesce(dte,0)/100))) 
+from linia_fac lf 
+group by num_f 
+having count(num_f) > 9
+order by sum( preu*quant* (1-( coalesce(dte,0)/100))) desc 
+```
+
+6.37 Traure tots els articles ordenats per la diferència entre el stock i el stock mínim de forma descendent. Com que en moltes ocasions el stock o el stock mínim és nul, hem de considerar en aquestos casos com 0. Per tant hem de tornar a utilitzar la funció COALESCE(stock,0) (i també per al stock mínim).
+```
+select *, coalesce(stock,0)-coalesce (stock_min,0)
+from article a 
+order by   coalesce (stock_min,0) - coalesce(stock,0)
+```
+
+6.38 Traure els codis de venedor amb el número de factures venudes en el segon semestre de 2015, ordenades per aquest número de forma descendent
+```
 
 ```
-ooioooo
+
 
 
 
