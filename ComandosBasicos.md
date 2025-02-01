@@ -462,17 +462,26 @@ offset 3
 
 
 ## Consulta de creacion de tablas
+Sintasi!
+```
+SELECT <columnes> INTO nova_taula
+    FROM <taules>
+```
+Pues la consulta se guarda en una nueva tabla.
 
+6.49 Crear una taula anomenada ARTICLE_999x, on 999 han de ser les 3 últimes xifres del DNI, i x la lletra del teu NIF, que siga una còpia de la taula ARTICLE, però substituint els valors nuls de stock i stock_min per zeros.
+```
+SELECT cod_a, descrip, preu, COALESCE(stock,0) AS stock, COALESCE(stock_min,0)
+AS stock_min, cod_cat
+INTO ARTICLE_999x
+FROM ARTICLE
+ORDER BY cod_a;
+```
 
-
-
-
-
-
-
-
-
-
+6.50 Utilitzar la taula anterior per a traure el stock màxim, el mínim i la mitjana de stocks. Observeu que si utilitzàrem la taula ARTICLE, els resultats no serien els mateixos (excepte el màxim), sobretot la mitjana, ja que els valors nuls no entrarien en els càlculs d'aquesta mitjana.
+```
+SELECT MAX(stock), MIN(stock),AVG(stock) FROM ARTICLE_999x;
+```
 
 
 
