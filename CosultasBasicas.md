@@ -1,4 +1,4 @@
-# Comandos basicos de SQL! 🤓
+# Cosultas Basicasde SQL! 🤓
 Estructura completa:
 ```
 SELECT [DISTINCT] <columnes>
