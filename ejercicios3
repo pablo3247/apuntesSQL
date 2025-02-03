@@ -1,0 +1,109 @@
+ejercicio3
+
+
+6.77CREATE TABLE categoria ( cod_cat VARCHAR(15), descripcio VARCHAR(50) );
+6.78CREATE TABLE article
+( cod_a VARCHAR(10),
+descrip VARCHAR(50),
+preu NUMERIC(6,2),
+stock NUMERIC(4,0),
+stock_min NUMERIC(4,0),
+cod_cat VARCHAR(15) );
+6.79CREATE TABLE provincia
+( cod_pro NUMERIC(2,0) CONSTRAINT cp_pro PRIMARY KEY,
+nom VARCHAR(50) );
+6.80CREATE TABLE poble
+( cod_pob NUMERIC(5,0) CONSTRAINT cp_pob PRIMARY KEY,
+nom VARCHAR(50),
+cod_pro NUMERIC(2,0) CONSTRAINT ce_pob_pro REFERENCES provincia );
+6.81CREATE TABLE venedor
+( cod_ven NUMERIC(5,0) CONSTRAINT cp_ven PRIMARY KEY,
+nom VARCHAR(100),
+adreca VARCHAR(100),
+cp NUMERIC(5,0),
+cod_pob NUMERIC(5,0) CONSTRAINT ce_ven_pob REFERENCES poble,
+cod_cap NUMERIC(5,0) );
+6.82CREATE TABLE client
+( cod_cli NUMERIC(5,0) CONSTRAINT cp_cli PRIMARY KEY,
+nom VARCHAR(100),
+adreca VARCHAR(100),
+cp NUMERIC(5,0),
+cod_pob NUMERIC(5,0) CONSTRAINT ce_cli_pob REFERENCES poble );
+6.83CREATE TABLE factura
+( num_f NUMERIC(5,0) CONSTRAINT cp_fac PRIMARY KEY,
+data DATE,
+cod_cli NUMERIC(5,0) CONSTRAINT ce_fac_cli REFERENCES client NOT NULL,
+cod_ven NUMERIC(5,0) CONSTRAINT ce_fac_ven REFERENCES venedor,
+iva NUMERIC(2,0),
+dte NUMERIC(2,0) );
+6.84CREATE TABLE linia_fac
+( num_f NUMERIC(5,0),
+num_l NUMERIC(3,0),
+cod_a VARCHAR(10) NOT NULL,
+quant NUMERIC(5,0),
+preu NUMERIC(6,2),
+dte NUMERIC(2,0),
+CONSTRAINT cp_lin PRIMARY KEY (num_f, num_l) );
+1SOLUCIONES PARTE III de SQL
+Curso 16/17
+6.85ALTER TABLE venedor
+ADD COLUMN alies VARCHAR UNIQUE NOT NULL;
+6.86ALTER TABLE venedor
+DROP COLUMN alies ;
+6.87ALTER TABLE categoria
+ADD CONSTRAINT cp_cat PRIMARY KEY (cod_cat);
+6.88ALTER TABLE article
+ADD CONSTRAINT cp_art PRIMARY KEY (cod_a),
+ADD CONSTRAINT ce_art_cat FOREIGN KEY (cod_cat) REFERENCES categoria;
+6.89ALTER TABLE linia_fac
+ADD CONSTRAINT ce_lin_fac FOREIGN KEY (num_f) REFERENCES factura
+ON DELETE CASCADE,
+ADD CONSTRAINT ce_lin_art FOREIGN KEY (cod_a) REFERENCES article;
+6.90CREATE INDEX i_nom_cli ON client (nom);
+6.91CREATE INDEX i_adr_ven ON venedor (cp, adreca DESC);
+6.92CREATE VIEW RESUM_FACTURA AS
+SELECT num_f, FACTURA.data, FACTURA.cod_cli, SUM(preu*quant) as import,
+SUM(preu*quant*(1-(COALESCE(LINIA_FAC.dte,0)/100))) as descompte_1,
+SUM(preu*quant*(1-(COALESCE(LINIA_FAC.dte,0)/100))*
+(1-(COALESCE(FACTURA.dte,0)/100))) as descompte_2
+FROM LINIA_FAC INNER JOIN FACTURA USING(num_f)
+GROUP BY num_f, FACTURA.data, FACTURA.cod_cli
+ORDER BY 1;
+6.93INSERT INTO categoria
+VALUES ('BjcOlimpia','Components Bjc Seria Olimpia'),
+('Legrand','Components marca Legrand'),
+('IntMagn','Interruptor Magnetotérmico'),
+('Niessen','Components Niesen Serie Lisa');
+6.94INSERT INTO article
+VALUES ('B10028B','Cruzamiento Bjc Serie Olimpia',4.38,2,1,'BjcOlimpia'),
+('B10200B','Cruzamiento Bjc Olimpia Con Visor',0.88,29,NULL,'BjcOlimpia'),
+('L16550','Cartucho Fusible Legrand T2 250 A',5.89,1,1,'Legrand'),
+('L16555','Cartucho Fusible Legrand T2 315 A',5.89,3,3,'Legrand'),
+('IM2P10L','Interruptor Magnetotermico 2p, 4',14.84,2,1,'IntMagn'),
+('N8008BA','Base Tt Lateral Niessen Trazo Bla',4.38,6,6,'Niessen');
+6.95INSERT INTO client (cod_cli,nom,adreca,cp)
+VALUES (303,'MIRAVET SALA, MARIA MERCEDES','URBANIZACION EL
+BALCO, 84-11',NULL),
+(306,'SAMPEDRO SIMO, MARIA MERCEDES','FINELLO, 161',12217),
+(387,'TUR MARTIN, MANUEL FRANCISCO','CALLE PEDRO VIRUELA, 108-
+8',12008);
+2SOLUCIONES PARTE III de SQL
+Curso 16/17
+6.96INSERT INTO factura
+VALUES (6535,'2015-01-01',306,NULL,21,10);
+INSERT INTO linia_fac
+VALUES (6535,1,'L16555',2,5.89,25);
+6.97INSERT INTO factura
+VALUES (6559,'2015-02-16',387,NULL,10,10);
+INSERT INTO linia_fac
+VALUES (6559,1,'IM2P10L',3,14.84,NULL),
+(6559,2,'N8008BA',6,4.38,20);
+6.98DELETE FROM factura
+WHERE num_f=6559;
+6.99DELETE FROM article
+WHERE stock_min IS NULL;
+6.100 UPDATE client
+SET cp=NULL;
+6.101 UPDATE article
+SET preu=preu*1.05
+WHERE cod_cat='BjcOlimpia';
